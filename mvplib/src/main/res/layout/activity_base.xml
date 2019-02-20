@@ -5,6 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".base.mvp.BaseActivity">
+    tools:context=".base.acticity.BaseActivity">
 
 </android.support.constraint.ConstraintLayout>

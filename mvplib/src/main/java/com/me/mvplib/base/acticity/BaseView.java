@@ -1,6 +1,6 @@
-package com.me.mvplib.base.mvp;
+package com.me.mvplib.base.acticity;
 
-public interface IBaseView {
+public interface BaseView {
     /**
      * 显示正在加载 view
      */

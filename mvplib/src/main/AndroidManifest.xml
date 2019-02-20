@@ -3,10 +3,10 @@
           package="com.me.mvplib">
 
     <application>
-        <activity android:name=".base.mvp.BaseActivity">
+        <activity android:name=".base.acticity.BaseActivity">
         </activity>
         <activity
-            android:name=".base.mvp.BaseMvpActivity"
+            android:name=".base.acticity.BaseMvpActivity"
             android:label="@string/title_activity_base_mvp"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
