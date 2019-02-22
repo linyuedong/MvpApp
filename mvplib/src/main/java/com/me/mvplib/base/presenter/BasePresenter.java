@@ -1,17 +1,16 @@
 package com.me.mvplib.base.presenter;
 
-import android.media.Image;
-
 import com.me.mvplib.base.acticity.BaseView;
 
-public class BasePresenter<T extends BaseView> {
+public class BasePresenter<V extends BaseView> implements IBasePresenter{
 
-    protected T mView;
+    protected V mView;
 
-    public void attachView(T view){
+    public BasePresenter(V view){
         this.mView = view;
     }
 
+    @Override
     public void detachView(){
         this.mView = null;
     }

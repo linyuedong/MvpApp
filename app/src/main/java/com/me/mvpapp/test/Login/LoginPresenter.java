@@ -1,10 +1,20 @@
-package com.me.mvpapp.test;
+package com.me.mvpapp.test.Login;
 
 import android.text.TextUtils;
 
 import com.me.mvplib.base.presenter.BasePresenter;
 
+import javax.inject.Inject;
+
 public class LoginPresenter extends BasePresenter<LoginActivity> implements LoginContact.Presenter{
+
+
+    @Inject
+    public LoginPresenter(LoginActivity view) {
+        super(view);
+    }
+
+
 
     @Override
     public void login(String username, String password) {
@@ -12,6 +22,8 @@ public class LoginPresenter extends BasePresenter<LoginActivity> implements Logi
             mView.loginFailure();
         }else{
             mView.loginSuccess();
+
+
         }
     }
 }

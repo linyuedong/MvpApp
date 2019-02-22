@@ -1,6 +1,6 @@
-package com.me.mvpapp.test;
+package com.me.mvpapp.test.Login;
 
-import android.os.Bundle;
+import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
@@ -12,15 +12,17 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.me.mvpapp.R;
-import com.me.mvplib.base.acticity.BaseMvpActivity;
+import com.me.mvpapp.di.component.DaggerActivityComponent;
+import com.me.mvpapp.di.module.ActivityModule;
+import com.me.mvpapp.test.Login1.LoginActivity1;
+import com.me.mvplib.base.acticity.BaseMvpDaggerActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements LoginContact.View {
+public class LoginActivity extends BaseMvpDaggerActivity<LoginPresenter> implements LoginContact.View {
 
 
     @BindView(R.id.login_progress)
@@ -37,9 +39,11 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
     ScrollView loginForm;
 
     @Override
-    protected LoginPresenter createPresenter() {
-        return new LoginPresenter();
+    protected void initInject() {
+        DaggerActivityComponent.builder().activityModule(new ActivityModule(this)).build().inject(this);
+
     }
+
 
     @Override
     protected int getLayoutId() {
@@ -53,6 +57,7 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
             @Override
             public void onClick(View view) {
                 mPresenter.login(email.getText().toString(), password.getText().toString());
+
             }
         });
     }
@@ -60,6 +65,7 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
     @Override
     public void loginSuccess() {
         Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this,LoginActivity1.class));
     }
 
     @Override

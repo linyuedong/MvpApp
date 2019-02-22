@@ -1,8 +1,8 @@
-package com.me.mvpapp.test;
+package com.me.mvpapp.test.Login1;
 
-public interface LoginContact {
+public interface LoginContact1 {
 
-    interface View{
+    interface View  {
         void loginSuccess();
         void loginFailure();
     }
