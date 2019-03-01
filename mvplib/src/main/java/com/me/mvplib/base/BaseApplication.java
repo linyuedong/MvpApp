@@ -35,4 +35,8 @@ public class BaseApplication extends Application {
     public static boolean isDebug(){
         return debug;
     }
+
+    public static Application getContext(){
+        return mApplication;
+    }
 }

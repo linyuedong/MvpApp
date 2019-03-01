@@ -11,7 +11,7 @@ public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
+        AppManager.getAppManager().addActivity(activity);
     }
 
     @Override
@@ -41,6 +41,6 @@ public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks
 
     @Override
     public void onActivityDestroyed(Activity activity) {
-
+        AppManager.getAppManager().removeActivity(activity);
     }
 }
