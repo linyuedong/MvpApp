@@ -2,11 +2,12 @@ package com.me.mvpapp.test.Login;
 
 import android.text.TextUtils;
 
+import com.me.mvplib.base.model.IModel;
 import com.me.mvplib.base.presenter.BasePresenter;
 
 import javax.inject.Inject;
 
-public class LoginPresenter extends BasePresenter<LoginActivity> implements LoginContact.Presenter{
+public class LoginPresenter extends BasePresenter<LoginActivity,IModel> implements LoginContact.Presenter{
 
 
     @Inject

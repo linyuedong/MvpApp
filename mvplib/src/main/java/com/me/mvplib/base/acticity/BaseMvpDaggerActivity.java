@@ -27,10 +27,11 @@ public abstract class BaseMvpDaggerActivity <T extends IBasePresenter> extends B
 
     @Override
     protected void onDestroy() {
-        if(mPresenter != null){
-            mPresenter.detachView();
-        }
         super.onDestroy();
+        if(mPresenter != null){
+            mPresenter.onDestroy();
+        }
+        mPresenter = null;
     }
 
 

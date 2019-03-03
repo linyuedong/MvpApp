@@ -24,10 +24,11 @@ public  abstract class BaseMvpActivity<T extends BasePresenter> extends BaseActi
 
     @Override
     protected void onDestroy() {
-        if(mPresenter != null){
-            mPresenter.detachView();
-        }
         super.onDestroy();
+        if(mPresenter != null){
+            mPresenter.onDestroy();
+        }
+        mPresenter = null;
     }
 
 

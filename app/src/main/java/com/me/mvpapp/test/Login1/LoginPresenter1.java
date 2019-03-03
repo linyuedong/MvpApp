@@ -6,7 +6,7 @@ import com.me.mvplib.base.presenter.BasePresenter;
 
 import javax.inject.Inject;
 
-public class LoginPresenter1 extends BasePresenter<LoginActivity1> implements LoginContact1.Presenter{
+public class LoginPresenter1 extends BasePresenter<LoginActivity1,LoginModel1> implements LoginContact1.Presenter{
 
 
     @Inject

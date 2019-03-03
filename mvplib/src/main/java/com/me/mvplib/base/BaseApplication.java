@@ -5,6 +5,9 @@ import android.content.pm.ApplicationInfo;
 
 import com.me.mvplib.Utils.LogUtlis;
 import com.me.mvplib.component.ActivityLifecycle;
+import com.me.mvplib.di.component.BaseAppComponent;
+import com.me.mvplib.di.component.DaggerBaseAppComponent;
+import com.me.mvplib.di.module.BaseAppModule;
 import com.squareup.leakcanary.LeakCanary;
 
 public class BaseApplication extends Application {
@@ -17,8 +20,23 @@ public class BaseApplication extends Application {
         super.onCreate();
         mApplication = this;
         initDebugStatus();
+        initInject();
         initLeakCanary();
+        initBulgly();
         registerActivityLifecycleCallbacks(new ActivityLifecycle());
+
+    }
+
+    private void initBulgly() {
+
+    }
+
+    private void initInject() {
+        DaggerBaseAppComponent
+                .builder()
+                .baseAppModule(new BaseAppModule(mApplication))
+                .build()
+                .inject(this);
     }
 
     private void initLeakCanary() {

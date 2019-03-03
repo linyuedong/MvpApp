@@ -10,4 +10,8 @@ public interface LoginContact1 {
     interface Presenter{
         void login(String username, String password);
     }
+
+    interface Model {
+
+    }
 }
