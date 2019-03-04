@@ -1,6 +1,4 @@
-package com.me.mvplib.repository;
-
-import com.me.mvplib.R;
+package com.me.mvplib.base.repository;
 
 public class BaseRepositoryBoth<R extends IRemoteDataSource, T extends ILocalDataSource> implements IRepository {
 

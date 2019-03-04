@@ -58,12 +58,15 @@ dependencies {
     api 'android.arch.lifecycle:extensions:1.1.1'
     annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
 
+    //okhttp
+    api 'com.squareup.okhttp3:okhttp:3.12.0'
     //retrofit
     api 'com.squareup.retrofit2:retrofit:2.5.0'
     api 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
     api 'com.squareup.retrofit2:converter-gson:2.5.0'
-    //okhttp
-    api 'com.squareup.okhttp3:okhttp:3.12.0'
+    //retrofitManager
+    api 'me.jessyan:retrofit-url-manager:1.4.0'
+
 
     //rxJava、rxAndroid
     api 'io.reactivex.rxjava2:rxandroid:2.1.0'

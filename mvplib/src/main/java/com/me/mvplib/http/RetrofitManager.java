@@ -2,6 +2,7 @@ package com.me.mvplib.http;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
 import com.me.mvplib.Utils.CommonUtils;
 import com.me.mvplib.base.BaseApplication;
 import com.me.mvplib.http.interceptor.logging.Level;
@@ -14,9 +15,9 @@ import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.internal.platform.Platform;
@@ -26,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitManager {
 
-    private static Retrofit.Builder mRetrofitBuilder = null;
+    private static Retrofit mRetrofit = null;
     private static volatile OkHttpClient mOkHttpClient = null;
     public static final long CONNECTION_TIMEOUT = 60;
     public static final long READ_TIMEOUT = 60;
@@ -46,8 +47,8 @@ public class RetrofitManager {
     }
 
     @NonNull
-    public  synchronized <T> T createService(String baseUrl,@NonNull Class<T> serviceClass) {
-        return createWrapperService(baseUrl,serviceClass);
+    public  synchronized <T> T createService(@NonNull Class<T> serviceClass) {
+        return createWrapperService(serviceClass);
     }
 
     /**
@@ -57,9 +58,8 @@ public class RetrofitManager {
      * @param <T> ApiService class
      * @return ApiService
      */
-    private  <T> T createWrapperService(String baseUrl ,Class<T> serviceClass) {
+    private  <T> T createWrapperService(Class<T> serviceClass) {
         CommonUtils.checkNotNull(serviceClass, "serviceClass == null");
-
         // 二次代理
         return (T) Proxy.newProxyInstance(serviceClass.getClassLoader(),
                 new Class<?>[]{serviceClass}, new InvocationHandler() {
@@ -73,7 +73,7 @@ public class RetrofitManager {
                             // 只包一层 defer 由外部去控制耗时方法以及网络请求所处线程，
                             // 如此对原项目的影响为 0，且更可控。
                             return Observable.defer(() -> {
-                                final T service = getRetrofitService(baseUrl,serviceClass);
+                                final T service = getRetrofitService(serviceClass);
                                 // 执行真正的 Retrofit 动态代理的方法
                                 return ((Observable) getRetrofitMethod(service, method)
                                         .invoke(service, args));
@@ -81,7 +81,7 @@ public class RetrofitManager {
                         } else if (method.getReturnType() == Single.class) {
                             // 如果方法返回值是 Single 的话，则包一层再返回。
                             return Single.defer(() -> {
-                                final T service = getRetrofitService(baseUrl,serviceClass);
+                                final T service = getRetrofitService(serviceClass);
                                 // 执行真正的 Retrofit 动态代理的方法
                                 return ((Single) getRetrofitMethod(service, method)
                                         .invoke(service, args));
@@ -89,7 +89,7 @@ public class RetrofitManager {
                         }
 
                         // 返回值不是 Observable 或 Single 的话不处理。
-                        final T service = getRetrofitService(baseUrl,serviceClass);
+                        final T service = getRetrofitService(serviceClass);
                         return getRetrofitMethod(service, method).invoke(service, args);
                     }
                 });
@@ -97,10 +97,10 @@ public class RetrofitManager {
 
     private static HashMap<String, Object> mRetrofitServiceCache = new HashMap<>();
 
-    private <T> T getRetrofitService(String baseUrl,Class<T> serviceClass) {
+    private <T> T getRetrofitService(Class<T> serviceClass) {
         T retrofitService = (T) mRetrofitServiceCache.get(serviceClass.getCanonicalName());
         if (retrofitService == null) {
-            retrofitService = mRetrofitBuilder.baseUrl(baseUrl).build().create(serviceClass);
+            retrofitService = mRetrofit.create(serviceClass);
             mRetrofitServiceCache.put(serviceClass.getCanonicalName(), retrofitService);
         }
         return retrofitService;
@@ -112,10 +112,11 @@ public class RetrofitManager {
 
 
     static{
-        mRetrofitBuilder = new Retrofit.Builder()
+        mRetrofit = new Retrofit.Builder()
                 .client(getOkHttpClient())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create());
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
     }
 
     private static OkHttpClient getOkHttpClient() {
@@ -141,8 +142,9 @@ public class RetrofitManager {
 
         //错误重连
         builder.retryOnConnectionFailure(true);
-        mOkHttpClient = builder.build();
-
+        //mOkHttpClient = builder.build();
+        //使用RetrofitUrlManager
+        mOkHttpClient = RetrofitUrlManager.getInstance().with(builder).build();
         return mOkHttpClient;
     }
 

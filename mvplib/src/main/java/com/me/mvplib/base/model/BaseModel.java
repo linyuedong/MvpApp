@@ -5,7 +5,7 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.OnLifecycleEvent;
 
-import com.me.mvplib.repository.IRepository;
+import com.me.mvplib.base.repository.IRepository;
 
 public class BaseModel implements IModel,LifecycleObserver {
 

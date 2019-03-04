@@ -1,7 +1,7 @@
 package com.me.mvpapp.test.Login;
 
 import com.me.mvplib.base.model.BaseModel;
-import com.me.mvplib.repository.IRepository;
+import com.me.mvplib.base.repository.IRepository;
 
 public class LoginModel extends BaseModel implements LoginContact.Model  {
 

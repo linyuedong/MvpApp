@@ -1,4 +1,4 @@
-package com.me.mvplib.repository;
+package com.me.mvplib.base.repository;
 
 public class BaseRepositoryRemote<T extends IRemoteDataSource> implements IRepository {
 
