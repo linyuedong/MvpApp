@@ -7,11 +7,11 @@ import android.arch.lifecycle.OnLifecycleEvent;
 
 import com.me.mvplib.base.repository.IRepository;
 
-public class BaseModel implements IModel,LifecycleObserver {
+public class BaseModel<T extends IRepository> implements IModel,LifecycleObserver {
 
-    public IRepository mRepository;
+    public T mRepository;
 
-    public BaseModel(IRepository repository){
+    public BaseModel(T repository){
         this.mRepository = repository;
     }
 

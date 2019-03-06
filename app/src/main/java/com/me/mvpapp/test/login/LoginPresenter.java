@@ -1,4 +1,4 @@
-package com.me.mvpapp.test.Login;
+package com.me.mvpapp.test.login;
 
 import android.text.TextUtils;
 
@@ -14,7 +14,6 @@ public class LoginPresenter extends BasePresenter<LoginActivity,IModel> implemen
     public LoginPresenter(LoginActivity view) {
         super(view);
     }
-
 
 
     @Override

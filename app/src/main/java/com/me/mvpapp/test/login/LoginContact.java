@@ -1,4 +1,4 @@
-package com.me.mvpapp.test.Login;
+package com.me.mvpapp.test.login;
 
 public interface LoginContact {
 

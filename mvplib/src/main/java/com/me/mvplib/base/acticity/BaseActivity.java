@@ -17,10 +17,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayoutId());
         mUnbinder = ButterKnife.bind(this);
         onViewCreate();
-        initDataAndView();
+        initDataAndView(savedInstanceState);
     }
 
-    protected abstract void initDataAndView();
+    protected abstract void initDataAndView(Bundle savedInstanceState);
 
     protected  void onViewCreate(){
 

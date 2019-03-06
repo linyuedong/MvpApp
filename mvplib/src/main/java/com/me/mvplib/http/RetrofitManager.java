@@ -8,7 +8,6 @@ import com.me.mvplib.base.BaseApplication;
 import com.me.mvplib.http.interceptor.logging.Level;
 import com.me.mvplib.http.interceptor.logging.LoggingInterceptor;
 
-import java.io.File;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -17,8 +16,9 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.rx_cache2.internal.RxCache;
+import io.victoralbertos.jolyglot.GsonSpeaker;
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
-import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.internal.platform.Platform;
 import retrofit2.Retrofit;
@@ -32,9 +32,16 @@ public class RetrofitManager {
     public static final long CONNECTION_TIMEOUT = 60;
     public static final long READ_TIMEOUT = 60;
     public static final long WRETE_TIMEOUT = 60;
-    public static final int cacheSize = 10 * 1024 * 1024;
+    private final RxCache mRxCache;
+
 
     private RetrofitManager(){
+        mRetrofit = new Retrofit.Builder()
+                .client(getOkHttpClient())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        mRxCache = new RxCache.Builder().persistence(BaseApplication.getContext().getExternalCacheDir(), new GsonSpeaker());
 
     }
 
@@ -54,9 +61,6 @@ public class RetrofitManager {
     /**
      * 根据 https://zhuanlan.zhihu.com/p/40097338 对 Retrofit 进行的优化
      *
-     * @param serviceClass ApiService class
-     * @param <T> ApiService class
-     * @return ApiService
      */
     private  <T> T createWrapperService(Class<T> serviceClass) {
         CommonUtils.checkNotNull(serviceClass, "serviceClass == null");
@@ -110,13 +114,15 @@ public class RetrofitManager {
         return service.getClass().getMethod(method.getName(), method.getParameterTypes());
     }
 
+    private static HashMap<String, Object> mCacheServiceCache = new HashMap<>();
 
-    static{
-        mRetrofit = new Retrofit.Builder()
-                .client(getOkHttpClient())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    public <T> T getCacheService(Class<T> cacheClass) {
+        T cacheService = (T) mCacheServiceCache.get(cacheClass.getCanonicalName());
+        if (cacheService == null) {
+            cacheService = mRxCache.using(cacheClass);
+            mCacheServiceCache.put(cacheClass.getCanonicalName(), cacheService);
+        }
+        return cacheService;
     }
 
     private static OkHttpClient getOkHttpClient() {
@@ -125,10 +131,6 @@ public class RetrofitManager {
         builder.connectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS);
         builder.writeTimeout(READ_TIMEOUT, TimeUnit.SECONDS);
         builder.readTimeout(WRETE_TIMEOUT, TimeUnit.SECONDS);
-        //设置缓存
-        File file = new File(BaseApplication.getContext().getCacheDir(), "Okcache");
-        Cache cache = new Cache(file, cacheSize);
-        builder.cache(cache);
         //日志拦截器
         builder.addInterceptor(new LoggingInterceptor
                 .Builder()//构建者模式

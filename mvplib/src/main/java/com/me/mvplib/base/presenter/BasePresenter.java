@@ -5,7 +5,7 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.OnLifecycleEvent;
 
-import com.me.mvplib.base.acticity.BaseView;
+import com.me.mvplib.base.BaseView;
 import com.me.mvplib.base.model.IModel;
 
 public class BasePresenter<V extends BaseView,M extends IModel> implements IBasePresenter,LifecycleObserver {

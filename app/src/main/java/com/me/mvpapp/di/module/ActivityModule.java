@@ -2,7 +2,7 @@ package com.me.mvpapp.di.module;
 
 import android.app.Activity;
 
-import com.me.mvpapp.test.Login.LoginActivity;
+import com.me.mvpapp.test.login.LoginActivity;
 import com.me.mvpapp.test.Login1.LoginActivity1;
 
 import dagger.Module;

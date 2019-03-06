@@ -5,15 +5,16 @@ import android.content.pm.ApplicationInfo;
 
 import com.me.mvplib.Utils.LogUtlis;
 import com.me.mvplib.component.ActivityLifecycle;
-import com.me.mvplib.di.component.BaseAppComponent;
 import com.me.mvplib.di.component.DaggerBaseAppComponent;
 import com.me.mvplib.di.module.BaseAppModule;
 import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 public class BaseApplication extends Application {
 
     private static Application mApplication;
     private static boolean debug = false;
+    private static RefWatcher mRefWatcher;
 
     @Override
     public void onCreate() {
@@ -43,7 +44,7 @@ public class BaseApplication extends Application {
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return;
         }
-        LeakCanary.install(this);
+        mRefWatcher = LeakCanary.install(this);
     }
 
     private void initDebugStatus() {
@@ -56,5 +57,9 @@ public class BaseApplication extends Application {
 
     public static Application getContext(){
         return mApplication;
+    }
+
+    public static RefWatcher getRefWatcher(){
+        return mRefWatcher;
     }
 }

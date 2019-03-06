@@ -1,5 +1,6 @@
 package com.me.mvpapp.test.Login1;
 
+import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
@@ -49,7 +50,7 @@ public class LoginActivity1 extends BaseMvpDaggerActivity<LoginPresenter1> imple
     }
 
     @Override
-    protected void initDataAndView() {
+    protected void initDataAndView(Bundle savedInstanceState) {
 
         emailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
