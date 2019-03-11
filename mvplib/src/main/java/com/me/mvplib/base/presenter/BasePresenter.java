@@ -5,46 +5,47 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.OnLifecycleEvent;
 
-import com.me.mvplib.base.BaseView;
+import com.me.mvplib.base.acticity.BaseView;
 import com.me.mvplib.base.model.IModel;
 
-public class BasePresenter<V extends BaseView,M extends IModel> implements IBasePresenter,LifecycleObserver {
+import javax.inject.Inject;
+
+public class BasePresenter<V extends BaseView,M extends IModel> implements IBasePresenter<V>,LifecycleObserver {
 
     protected V mView;
+
+    @Inject
     protected M mModel;
 
-    public BasePresenter(V view){
-        this.mView = view;
-        onStart();
-    }
-
-    public BasePresenter(V view, M model){
-        this.mView = view;
-        this.mModel = model;
-        onStart();
-    }
 
 
     @Override
-    public void onStart() {
-        if(mView != null&&mView instanceof LifecycleOwner){
-            ((LifecycleOwner) mView).getLifecycle().addObserver(this);
-        }
-        if(mModel != null&&mModel instanceof LifecycleOwner){
-            ((LifecycleOwner) mView).getLifecycle().addObserver((LifecycleObserver) mModel);
-        }
+    public void attachView(V view) {
+        mView = view;
+    }
+
+
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    public void onCreate(LifecycleOwner owner){
+        ((LifecycleOwner) mView).getLifecycle().addObserver((LifecycleObserver) mModel);
+
     }
 
     @Override
     public void onDestroy() {
-        if (mModel != null)
+        if (mModel != null){
             mModel.onDestroy();
-        this.mModel = null;
-        this.mView = null;
+            mModel = null;
+        }
+        if(mView != null){
+            mView = null;
+        }
+
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    void onDestroy(LifecycleOwner owner) {
+    public void onDestroy(LifecycleOwner owner) {
         owner.getLifecycle().removeObserver(this);
     }
 

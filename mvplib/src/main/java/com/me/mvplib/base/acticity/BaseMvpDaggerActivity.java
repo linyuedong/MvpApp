@@ -1,11 +1,13 @@
 package com.me.mvplib.base.acticity;
 
-import com.me.mvplib.base.BaseView;
+import android.arch.lifecycle.LifecycleOwner;
+
+import com.me.mvplib.base.presenter.BasePresenter;
 import com.me.mvplib.base.presenter.IBasePresenter;
 
 import javax.inject.Inject;
 
-public abstract class BaseMvpDaggerActivity <T extends IBasePresenter> extends BaseActivity implements BaseView {
+public abstract class BaseMvpDaggerActivity <T extends BasePresenter> extends BaseActivity implements BaseView {
 
     @Inject
     public T mPresenter;
@@ -19,6 +21,10 @@ public abstract class BaseMvpDaggerActivity <T extends IBasePresenter> extends B
 
     private void initPresenter() {
         initInject();
+        if(mPresenter != null){
+            mPresenter.attachView(this);
+            getLifecycle().addObserver(mPresenter);
+        }
 
     }
 

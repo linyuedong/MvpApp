@@ -1,6 +1,5 @@
 package com.me.mvplib.base.acticity;
 
-import com.me.mvplib.base.BaseView;
 import com.me.mvplib.base.presenter.BasePresenter;
 
 

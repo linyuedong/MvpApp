@@ -16,8 +16,8 @@ public class HomePageModel extends BaseModel<HomePageRespository> implements Hom
 
 
     @Inject
-    public HomePageModel(HomePageRespository repository) {
-        super(repository);
+    public HomePageModel() {
+
     }
 
 

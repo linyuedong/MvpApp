@@ -1,4 +1,4 @@
-package com.me.mvplib.base;
+package com.me.mvplib.base.acticity;
 
 public interface BaseView {
     /**

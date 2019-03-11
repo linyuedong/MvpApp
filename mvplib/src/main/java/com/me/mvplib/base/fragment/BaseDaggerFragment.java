@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.me.mvplib.base.BaseView;
+import com.me.mvplib.base.acticity.BaseView;
 import com.me.mvplib.base.presenter.IBasePresenter;
 
 import javax.inject.Inject;
@@ -18,7 +18,15 @@ public abstract class BaseDaggerFragment<T extends IBasePresenter> extends BaseF
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initPresenter();
+    }
+
+    private void initPresenter() {
         initInject();
+        if(mPresenter != null){
+            mPresenter.attachView(this);
+        }
+
     }
 
     @Override

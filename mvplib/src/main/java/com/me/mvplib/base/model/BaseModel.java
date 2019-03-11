@@ -7,18 +7,18 @@ import android.arch.lifecycle.OnLifecycleEvent;
 
 import com.me.mvplib.base.repository.IRepository;
 
+import javax.inject.Inject;
+
 public class BaseModel<T extends IRepository> implements IModel,LifecycleObserver {
 
+    @Inject
     public T mRepository;
-
-    public BaseModel(T repository){
-        this.mRepository = repository;
-    }
-
 
     @Override
     public void onDestroy() {
-        this.mRepository = null;
+        if(mRepository != null){
+            mRepository = null;
+        }
     }
 
     @OnLifecycleEvent( Lifecycle.Event.ON_DESTROY)

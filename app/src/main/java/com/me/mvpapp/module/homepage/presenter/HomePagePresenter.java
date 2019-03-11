@@ -19,8 +19,8 @@ import io.reactivex.disposables.Disposable;
 public class HomePagePresenter extends BasePresenter<HomePageFragment,HomePageModel> implements HomePageContract.Presenter {
 
     @Inject
-    public HomePagePresenter(HomePageFragment view, HomePageModel model) {
-        super(view, model);
+    public HomePagePresenter() {
+
     }
 
     public void loadData(){
