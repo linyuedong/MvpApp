@@ -14,6 +14,8 @@ import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Singleton;
+
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.rx_cache2.internal.RxCache;
@@ -25,6 +27,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+@Singleton
 public class RetrofitManager {
 
     private static Retrofit mRetrofit = null;
@@ -33,10 +36,12 @@ public class RetrofitManager {
     public static final long READ_TIMEOUT = 60;
     public static final long WRETE_TIMEOUT = 60;
     private final RxCache mRxCache;
+    private final String BASE_URL = "http://www.baidu.com";
 
 
     private RetrofitManager(){
         mRetrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
                 .client(getOkHttpClient())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())

@@ -7,8 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
-
 
 
 public class ViewUtils {
@@ -35,6 +35,8 @@ public class ViewUtils {
     }
 
 
+
+
     public static void DisplayHomeAsUpEnabled(AppCompatActivity activity, Toolbar toolbar, boolean displayHomeAsUpEnabled){
         ActionBar actionBar = activity.getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(displayHomeAsUpEnabled);
@@ -50,8 +52,33 @@ public class ViewUtils {
             }
         });
 
-
-
     }
+
+
+    public static int getWidth(View view){
+        return getWidthAndHeight(view)[0];
+    }
+
+    public static int getHeight(View view){
+        return getWidthAndHeight(view)[1];
+    }
+
+    private static int[] getWidthAndHeight(View view){
+       final int[] result = new int[2];
+        ViewTreeObserver viewTreeObserver = view.getViewTreeObserver();
+        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                result[0] = view.getWidth();
+                result[1] = view.getHeight();
+
+            }
+        });
+        return result;
+    }
+
+
+
 
 }

@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo;
 
 import com.me.mvplib.Utils.LogUtlis;
 import com.me.mvplib.component.ActivityLifecycle;
+import com.me.mvplib.di.component.BaseAppComponent;
 import com.me.mvplib.di.component.DaggerBaseAppComponent;
 import com.me.mvplib.di.module.BaseAppModule;
 import com.squareup.leakcanary.LeakCanary;
@@ -15,6 +16,7 @@ public class BaseApplication extends Application {
     private static Application mApplication;
     private static boolean debug = false;
     private static RefWatcher mRefWatcher;
+    private static BaseAppComponent baseAppComponent;
 
     @Override
     public void onCreate() {
@@ -38,6 +40,17 @@ public class BaseApplication extends Application {
                 .baseAppModule(new BaseAppModule(mApplication))
                 .build()
                 .inject(this);
+    }
+
+    public static BaseAppComponent getBaseAppComponent(){
+        if(baseAppComponent == null){
+            baseAppComponent = DaggerBaseAppComponent
+                    .builder()
+                    .baseAppModule(new BaseAppModule(mApplication))
+                    .build();
+        }
+
+        return baseAppComponent;
     }
 
     private void initLeakCanary() {

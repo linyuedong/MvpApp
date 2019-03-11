@@ -3,6 +3,7 @@ package com.me.mvplib.di.component;
 import android.app.Application;
 
 import com.me.mvplib.di.module.BaseAppModule;
+import com.me.mvplib.http.RetrofitManager;
 
 import javax.inject.Singleton;
 
@@ -13,6 +14,8 @@ import dagger.Component;
 public interface BaseAppComponent {
 
     Application getApplication();
+
+    RetrofitManager getRetrofitManager();
 
     void inject(Application application);
 

@@ -2,6 +2,8 @@ package com.me.mvplib.di.module;
 
 import android.app.Application;
 
+import com.me.mvplib.http.RetrofitManager;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -22,5 +24,10 @@ public class BaseAppModule {
         return mApplication;
     }
 
+    @Provides
+    @Singleton
+    public RetrofitManager provideRetrofitManager(){
+        return RetrofitManager.getInstance();
+    }
 
 }
