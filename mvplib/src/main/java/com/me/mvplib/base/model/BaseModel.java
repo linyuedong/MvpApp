@@ -6,18 +6,22 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.OnLifecycleEvent;
 
 import com.me.mvplib.base.repository.IRepository;
+import com.me.mvplib.http.RetrofitManager;
 
 import javax.inject.Inject;
 
 public class BaseModel<T extends IRepository> implements IModel,LifecycleObserver {
 
+//    @Inject
+//    public T mRepository;
+
     @Inject
-    public T mRepository;
+    public RetrofitManager mRetrofitManager;
 
     @Override
     public void onDestroy() {
-        if(mRepository != null){
-            mRepository = null;
+        if(mRetrofitManager != null){
+            mRetrofitManager = null;
         }
     }
 

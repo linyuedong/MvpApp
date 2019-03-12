@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.me.mvpapp.module.homepage.ui.fragment.HomePageFragment;
@@ -29,8 +28,7 @@ public class MainActivity extends BaseActivity {
     FrameLayout mContent;
     @BindView(R.id.navigation)
     BottomNavigationView mNavigation;
-    @BindView(R.id.button)
-    Button mButton;
+
 
     private ArrayList<Fragment> mFragments;
     private HomePageFragment mHomePageFragment;
@@ -116,8 +114,7 @@ public class MainActivity extends BaseActivity {
 
 
     public void setCenterTitle(String title) {
-        ViewUtils.setCenterTitle(mToolbar, getSupportActionBar(), title);
-
+        ViewUtils.setCenterTitle(this, mToolbar, title);
     }
 
 

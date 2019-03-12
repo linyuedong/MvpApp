@@ -32,9 +32,18 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation project(':mvplib')
+    implementation project(':CommonRes')
+
+    //butterknife
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    //    implementation 'com.google.dagger:dagger:2.21'
+    //implementation 'com.google.dagger:dagger:2.21'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.21'
-    implementation project(':CommonRes')
+
+    //UI相关
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-18'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-18'//没有使用特殊Header，可以不加这行
+    implementation 'com.youth.banner:banner:1.4.10'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44'
+
 }

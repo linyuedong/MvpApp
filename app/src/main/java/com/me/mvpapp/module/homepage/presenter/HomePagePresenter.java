@@ -1,20 +1,15 @@
 package com.me.mvpapp.module.homepage.presenter;
 
 import com.me.mvpapp.http.bean.wanAndroid.BannerBean;
-import com.me.mvpapp.http.bean.wanAndroid.WanAndroidResponse;
 import com.me.mvpapp.module.homepage.contract.HomePageContract;
 import com.me.mvpapp.module.homepage.model.HomePageModel;
 import com.me.mvpapp.module.homepage.ui.fragment.HomePageFragment;
 import com.me.mvpapp.utils.RxUtils;
 import com.me.mvplib.Utils.LogUtlis;
+import com.me.mvplib.base.BaseObserver;
 import com.me.mvplib.base.presenter.BasePresenter;
 
-import java.util.List;
-
 import javax.inject.Inject;
-
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 
 public class HomePagePresenter extends BasePresenter<HomePageFragment,HomePageModel> implements HomePageContract.Presenter {
 
@@ -24,31 +19,23 @@ public class HomePagePresenter extends BasePresenter<HomePageFragment,HomePageMo
     }
 
     public void loadData(){
-
-        mModel.getBannerData()
+        mModel.getBannerData(false)
                 .compose(RxUtils.rxSchedulersHelper())
-                .subscribe(new Observer<WanAndroidResponse<List<BannerBean>>>() {
-            @Override
-            public void onSubscribe(Disposable d) {
+                .subscribe(new BaseObserver<BannerBean>() {
+                    @Override
+                    public void onSuccess(BannerBean bannerBean) {
+                        LogUtlis.i(bannerBean.getData().get(0).getDesc());
 
-            }
+                    }
 
-            @Override
-            public void onNext(WanAndroidResponse<List<BannerBean>> listWanAndroidResponse) {
-                LogUtlis.i(listWanAndroidResponse.getData().get(0).getDesc());
-            }
+                    @Override
+                    protected void onFail(Throwable e) {
+                        LogUtlis.i(e.getMessage());
 
-            @Override
-            public void onError(Throwable e) {
-                LogUtlis.i(e.getMessage());
+                    }
+                });
 
-            }
 
-            @Override
-            public void onComplete() {
-
-            }
-        });
 
     }
 

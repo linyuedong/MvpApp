@@ -31,8 +31,9 @@ public abstract class BaseActivity extends SupportActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mUnbinder != null && mUnbinder != Unbinder.EMPTY)
+        if (mUnbinder != null && mUnbinder != Unbinder.EMPTY){
             mUnbinder.unbind();
-        this.mUnbinder = null;
+        }
+        mUnbinder = null;
     }
 }

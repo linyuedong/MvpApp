@@ -22,11 +22,11 @@ public interface WanAndroidApis {
 
     @Headers({DOMAIN_NAME_HEADER + Constants.WANAndroid_DOMAIN_NAME})
     @GET("article/list/{page}/json")
-    Observable<WanAndroidResponse<HomeArticleBean>> getHomeArticleList(@Path("page") int page);
+    Observable<HomeArticleBean> getHomeArticleList(@Path("page") int page);
 
     @Headers({DOMAIN_NAME_HEADER + Constants.WANAndroid_DOMAIN_NAME})
     @GET("banner/json")
-    Observable<WanAndroidResponse<List<BannerBean>>> getHomeBannerList();
+    Observable<BannerBean> getHomeBannerList();
 
     @Headers({DOMAIN_NAME_HEADER + Constants.WANAndroid_DOMAIN_NAME})
     @GET("tree/json")

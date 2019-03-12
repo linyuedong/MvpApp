@@ -1,6 +1,8 @@
 package com.me.mvpapp.http.bean.wanAndroid;
 
-public class BannerBean {
+import java.util.List;
+
+public class BannerBean extends WanAndroidResponse<List<BannerBean>>{
 
 
     /**

@@ -17,12 +17,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="@dimen/button_width"
-        android:layout_height="200dp"
-        android:text="@string/hello_blank_fragment"/>
-
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"

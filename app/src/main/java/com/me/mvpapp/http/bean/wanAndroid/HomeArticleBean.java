@@ -2,7 +2,7 @@ package com.me.mvpapp.http.bean.wanAndroid;
 
 import java.util.List;
 
-public class HomeArticleBean {
+public class HomeArticleBean extends WanAndroidResponse<HomeArticleBean>{
 
 
     /**

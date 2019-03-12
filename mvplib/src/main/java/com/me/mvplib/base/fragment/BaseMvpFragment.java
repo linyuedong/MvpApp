@@ -8,8 +8,11 @@ import android.view.View;
 import com.me.mvplib.base.acticity.BaseView;
 import com.me.mvplib.base.presenter.IBasePresenter;
 
+import javax.inject.Inject;
+
 public abstract class BaseMvpFragment<T extends IBasePresenter> extends BaseFragment implements BaseView {
 
+    @Inject
     public T mPresenter;
 
     @Override
@@ -18,21 +21,24 @@ public abstract class BaseMvpFragment<T extends IBasePresenter> extends BaseFrag
         initPresenter();
     }
 
+    private void initPresenter() {
+        initInject();
+        if(mPresenter != null){
+            mPresenter.attachView(this);
+        }
+
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         if(mPresenter != null){
-            mPresenter.onDestroy();
+            mPresenter.detach();
         }
         mPresenter = null;
     }
 
-    private void initPresenter() {
-        mPresenter = createPresenter();
-    }
-
-    protected abstract T createPresenter();
-
+    protected abstract void initInject();
 
     @Override
     public void showLoading() {
@@ -48,5 +54,4 @@ public abstract class BaseMvpFragment<T extends IBasePresenter> extends BaseFrag
     public void showToast(String msg) {
 
     }
-
 }

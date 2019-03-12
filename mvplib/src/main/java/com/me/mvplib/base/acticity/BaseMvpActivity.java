@@ -2,10 +2,11 @@ package com.me.mvplib.base.acticity;
 
 import com.me.mvplib.base.presenter.BasePresenter;
 
+import javax.inject.Inject;
 
-public  abstract class BaseMvpActivity<T extends BasePresenter> extends BaseActivity implements BaseView {
+public abstract class BaseMvpActivity<T extends BasePresenter> extends BaseActivity implements BaseView {
 
-
+    @Inject
     public T mPresenter;
 
     @Override
@@ -16,17 +17,23 @@ public  abstract class BaseMvpActivity<T extends BasePresenter> extends BaseActi
     }
 
     private void initPresenter() {
-        mPresenter = createPresenter();
+        initInject();
+        if(mPresenter != null){
+            mPresenter.attachView(this);
+            getLifecycle().addObserver(mPresenter);
+        }
+
     }
 
-    protected abstract T createPresenter();
+    protected abstract void initInject() ;
+
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if(mPresenter != null){
-            mPresenter.onDestroy();
+            mPresenter.detach();
         }
         mPresenter = null;
     }

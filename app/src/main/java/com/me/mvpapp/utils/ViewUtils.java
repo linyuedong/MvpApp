@@ -13,7 +13,11 @@ import android.widget.TextView;
 
 public class ViewUtils {
 
-    public static void setCenterTitle(Toolbar toolbar , ActionBar actionBar, CharSequence title) {
+
+
+
+    public static void setCenterTitle(AppCompatActivity activity, Toolbar toolbar, CharSequence title) {
+        ActionBar actionBar = activity.getSupportActionBar();
         if (actionBar != null) {
             //去除默认Title显示
             actionBar.setDisplayShowTitleEnabled(false);
