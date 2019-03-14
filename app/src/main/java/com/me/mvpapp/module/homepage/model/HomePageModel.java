@@ -22,12 +22,14 @@ public class HomePageModel extends BaseModel<HomePageRespository> implements Hom
     }
 
 
+    @Override
     public Observable<BannerBean> getBannerData(boolean update){
         Observable<BannerBean> homeBannerList = mRetrofitManager.createService(WanAndroidApis.class).getHomeBannerList();
         Observable<BannerBean> homeBannerCache = mRetrofitManager.getCacheService(WanAndroidCache.class).getHomeBannerCache(homeBannerList, new EvictProvider(update));
         return homeBannerCache;
     }
 
+    @Override
     public Observable<HomeArticleBean> getHomeArticle(int page, boolean update){
         Observable<HomeArticleBean> homeArticleList = mRetrofitManager.getCacheService(WanAndroidApis.class).getHomeArticleList(page);
         Observable<HomeArticleBean> homeArticleCache = mRetrofitManager.getCacheService(WanAndroidCache.class).getHomeArticleCache(homeArticleList, new DynamicKey(page), new EvictProvider(update));
