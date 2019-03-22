@@ -6,4 +6,7 @@
 
     <!--页面背景的颜色-->
     <color name="color_page_bg">#F1F3F4</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 </resources>

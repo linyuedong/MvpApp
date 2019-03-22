@@ -62,13 +62,6 @@ public abstract class BaseFragment extends SupportFragment {
         initEventAndData();
     }
 
-    /**
-     * 处理回退事件
-     */
-    @Override
-    public boolean onBackPressedSupport() {
-        return true;
-    }
 
     /**
      * 有些初始化必须在onCreateView中，例如setAdapter,
