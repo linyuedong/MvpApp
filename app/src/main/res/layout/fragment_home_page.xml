@@ -12,27 +12,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.scwang.smartrefresh.header.PhoenixHeader
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/main_pager_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            />
 
-        <com.me.commonres.statusview.StatusView
-            android:id="@+id/main_pager_status_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <!--<com.me.commonres.statusview.StatusView-->
+            <!--android:id="@+id/main_pager_status_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/main_pager_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="invisible" />
+           <!---->
 
-        </com.me.commonres.statusview.StatusView>
+        <!--</com.me.commonres.statusview.StatusView>-->
 
 
-        <com.scwang.smartrefresh.header.TaurusHeader
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 

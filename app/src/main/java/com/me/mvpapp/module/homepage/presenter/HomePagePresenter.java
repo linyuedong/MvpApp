@@ -14,6 +14,10 @@ import javax.inject.Inject;
 
 public class HomePagePresenter extends BasePresenter<HomePageFragment,HomePageModel> implements HomePageContract.Presenter {
 
+
+    public int mCurrentPage = 0;
+    public boolean isRefresh = false;
+
     @Inject
     public HomePagePresenter() {
 
@@ -28,13 +32,29 @@ public class HomePagePresenter extends BasePresenter<HomePageFragment,HomePageMo
 
     }
 
-    private void loadArticleData(boolean b) {
-        mModel.getHomeArticle(1,true)
+
+    @Override
+    public void refresh() {
+        isRefresh = true;
+        mCurrentPage = 0;
+        loadBannerData(true);
+        loadArticleData(true);
+    }
+
+    @Override
+    public void loadMore() {
+        isRefresh = false;
+        mCurrentPage++;
+        loadArticleData(false);
+    }
+
+    private void loadArticleData(boolean isUpdate) {
+        mModel.getHomeArticle(mCurrentPage,isUpdate)
                 .compose(RxUtils.rxSchedulersHelper())
                 .subscribe(new BaseObserver<HomeArticleBean>() {
                     @Override
                     public void onSuccess(HomeArticleBean homeArticleBean) {
-                        mView.showArticle(homeArticleBean.getData());
+                        mView.showArticle(homeArticleBean.getData(),isRefresh);
                     }
 
                     @Override
@@ -44,8 +64,8 @@ public class HomePagePresenter extends BasePresenter<HomePageFragment,HomePageMo
                 });
     }
 
-    private void loadBannerData(boolean b) {
-        mModel.getBannerData(true)
+    private void loadBannerData(boolean isUpdate) {
+        mModel.getBannerData(isUpdate)
                 .compose(RxUtils.rxSchedulersHelper())
                 .subscribe(new BaseObserver<BannerBean>() {
                     @Override
@@ -63,6 +83,7 @@ public class HomePagePresenter extends BasePresenter<HomePageFragment,HomePageMo
                 });
 
     }
+
 
 
 

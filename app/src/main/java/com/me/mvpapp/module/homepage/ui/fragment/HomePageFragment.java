@@ -2,6 +2,7 @@ package com.me.mvpapp.module.homepage.ui.fragment;
 
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import com.me.commonres.statusview.StatusView;
 import com.me.mvpapp.R;
 import com.me.mvpapp.di.component.DaggerFragmentComponent;
 import com.me.mvpapp.di.module.FragmentModule;
+import com.me.mvpapp.http.bean.wanAndroid.ArticleDataBean;
 import com.me.mvpapp.http.bean.wanAndroid.BannerBean;
 import com.me.mvpapp.http.bean.wanAndroid.HomeArticleBean;
 import com.me.mvpapp.module.homepage.contract.HomePageContract;
@@ -22,6 +24,9 @@ import com.me.mvpapp.module.homepage.ui.adapter.HomeArticleAdapter;
 import com.me.mvplib.base.BaseApplication;
 import com.me.mvplib.base.fragment.BaseMvpFragment;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -37,11 +42,11 @@ public class HomePageFragment extends BaseMvpFragment<HomePagePresenter> impleme
     @BindView(R.id.main_pager_recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.normal_view)
-    SmartRefreshLayout mNormalView;
+    SmartRefreshLayout mSmartRefreshLayout;
 
-    @BindView(R.id.main_pager_status_view)
-    StatusView mMainPagerStatusView;
-    private ArrayList<HomeArticleBean> mHomeArticleBeans;
+//    @BindView(R.id.main_pager_status_view)
+//    StatusView mMainPagerStatusView;
+    private ArrayList<ArticleDataBean> mHomeArticleBeans;
     private HomeArticleAdapter mHomeArticleAdapter;
     private Banner mBanner;
     private ArrayList<String> mBannerUrls;
@@ -54,17 +59,30 @@ public class HomePageFragment extends BaseMvpFragment<HomePagePresenter> impleme
     @Override
     protected void initView() {
         super.initView();
-        //mMainPagerStatusView.showErrorView();
         initRecyclerView();
+
+        mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mPresenter.refresh();
+                mSmartRefreshLayout.finishRefresh(500);
+            }
+        });
+
+        mSmartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                mPresenter.loadMore();
+                mSmartRefreshLayout.finishLoadMore(500);
+            }
+        });
     }
 
     private void initRecyclerView() {
         mHomeArticleBeans = new ArrayList<>();
         mHomeArticleAdapter = new HomeArticleAdapter(R.layout.homepage_artlcle_item, mHomeArticleBeans);
-
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setHasFixedSize(true);
-
         //add head banner
         LinearLayout mHeaderGroup = ((LinearLayout) LayoutInflater.from(mActivity).inflate(R.layout.head_banner, null));
         mBanner = mHeaderGroup.findViewById(R.id.head_banner);
@@ -77,7 +95,6 @@ public class HomePageFragment extends BaseMvpFragment<HomePagePresenter> impleme
     @Override
     protected void initEventAndData() {
         mPresenter.loadData();
-
 
     }
 
@@ -124,7 +141,14 @@ public class HomePageFragment extends BaseMvpFragment<HomePagePresenter> impleme
     }
 
     @Override
-    public void showArticle(HomeArticleBean homeArticleBean) {
+    public void showArticle(HomeArticleBean homeArticleBean,boolean isRefresh) {
+        List<ArticleDataBean> datas = homeArticleBean.getDatas();
+        if(isRefresh){
+            mHomeArticleAdapter.replaceData(datas);
+        }else{
+            mHomeArticleAdapter.addData(datas);
+        }
+
     }
 
 

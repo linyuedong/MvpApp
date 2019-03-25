@@ -12,12 +12,14 @@ public interface HomePageContract {
     interface View {
 
         void showBanner(List<BannerBean> bannerBeans);
-        void showArticle(HomeArticleBean homeArticleBean);
+        void showArticle(HomeArticleBean homeArticleBean,boolean isRefresh);
 
     }
 
     interface Presenter {
         void loadData();
+        void refresh();
+        void loadMore();
     }
 
 
